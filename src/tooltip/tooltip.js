@@ -116,6 +116,7 @@ angular.module( 'ui.bootstrap.tooltip', [ 'ui.bootstrap.position', 'ui.bootstrap
           var appendToBody = angular.isDefined( options.appendToBody ) ? options.appendToBody : false;
           var triggers = getTriggers( undefined );
           var hasRegisteredTriggers = false;
+          var hasEnableExp;
 
           // By default, the tooltip is not open.
           // TODO add ability to start tooltip opened
@@ -131,6 +132,9 @@ angular.module( 'ui.bootstrap.tooltip', [ 'ui.bootstrap.position', 'ui.bootstrap
           
           // Show the tooltip with delay if specified, otherwise show it immediately
           function showTooltipBind() {
+            if(hasEnableExp && !scope.$eval(attrs[prefix+'Enable'])) {
+              return;
+            }
             if ( scope.tt_popupDelay ) {
               popupTimeout = $timeout( show, scope.tt_popupDelay );
             } else {
@@ -279,6 +283,10 @@ angular.module( 'ui.bootstrap.tooltip', [ 'ui.bootstrap.position', 'ui.bootstrap
             }
 
             hasRegisteredTriggers = true;
+          });
+
+          attrs.$observe(prefix+'Enable', function(val) {
+            hasEnableExp = angular.isDefined(val);
           });
 
           attrs.$observe( prefix+'AppendToBody', function ( val ) {
