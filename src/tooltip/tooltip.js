@@ -116,7 +116,7 @@ angular.module( 'ui.bootstrap.tooltip', [ 'ui.bootstrap.position', 'ui.bootstrap
           var appendToBody = angular.isDefined( options.appendToBody ) ? options.appendToBody : false;
           var triggers = getTriggers( undefined );
           var hasRegisteredTriggers = false;
-          var hasEnableExp;
+          var hasEnableExp = angular.isDefined(val);
 
           // By default, the tooltip is not open.
           // TODO add ability to start tooltip opened
@@ -283,10 +283,6 @@ angular.module( 'ui.bootstrap.tooltip', [ 'ui.bootstrap.position', 'ui.bootstrap
             }
 
             hasRegisteredTriggers = true;
-          });
-
-          attrs.$observe(prefix+'Enable', function(val) {
-            hasEnableExp = angular.isDefined(val);
           });
 
           attrs.$observe( prefix+'AppendToBody', function ( val ) {
